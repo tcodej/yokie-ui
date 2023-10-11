@@ -1,0 +1,564 @@
+#mobile-wrapper {
+    .icon {
+        background-image: url(../img/sprites.svg);
+        background-repeat: no-repeat;
+        background-size: 968px 88px;
+        text-indent: -999em;
+        border: none;
+        width: 21px;
+        height: 18px;
+        padding: 0;
+        direction: ltr;
+    }
+
+    header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: #000;
+        height: 45px;
+        z-index: 210;
+    }
+
+    h1 {
+        position: absolute;
+        font-family: 'geometry_soft_probold';
+        font-size: 22px;
+        top: 10px;
+        right: 10px;
+        color: #e8eb4f;
+    }
+
+    nav {
+        position: fixed;
+        top: 45px;
+        width: 100%;
+        left: -100%;
+        bottom: 0;
+        background: #000;
+        padding-bottom: 10px;
+        transition: left 150ms ease-in-out 200ms;
+    }
+
+    nav.is-active {
+        transition: left 150ms ease-in-out;
+        left: 0;
+    }
+
+    nav .links {
+      position: absolute;
+      width: 100%;
+      top: calc(50% - 30px);
+      -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
+
+    nav a {
+        position: relative;
+        display: block;
+        color: #ccc;
+        text-decoration: none;
+        line-height: 40px;
+        font-size: 30px;
+        margin: 30px 0;
+        text-align: center;
+        left: -50px;
+        font-family: 'geometry_soft_probold';
+        letter-spacing: 2px;
+    }
+
+    nav.is-active a {
+        left: 0;
+    }
+
+    nav a.whatsnew {
+        transition: left 100ms ease-in-out 100ms;
+    }
+
+    nav a.popular {
+        transition: left 100ms ease-in-out 150ms;
+    }
+
+    nav a.random {
+        transition: left 100ms ease-in-out 200ms;
+    }
+
+    nav a.booklet {
+        transition: left 100ms ease-in-out 250ms;
+    }
+
+    nav a.chat {
+        transition: left 100ms ease-in-out 300ms;
+    }
+
+    nav a:hover {
+        color: #e8eb4f;
+    }
+
+
+
+
+    /* ----- MOBILE MENU BUTTON ----- */
+
+    #btn-menu {
+        width: 54px;
+        height: 44px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+        z-index: 100;
+    }
+
+    #btn-menu span {
+        display: block;
+        position: absolute;
+        height: 3px;
+        width: 24px;
+        background: #ccc;
+        left: 15px;
+        transition: 75ms ease-in-out;
+        border-radius: 2px;
+    }
+
+    #btn-menu span:nth-child(1) {
+        top: 11px;
+    }
+
+    #btn-menu span:nth-child(2),
+    #btn-menu span:nth-child(3) {
+        top: 20px;
+    }
+
+    #btn-menu span:nth-child(4) {
+        top: 29px;
+    }
+
+    #btn-menu.is-active span:nth-child(1),
+    #btn-menu.is-active span:nth-child(4) {
+        top: 20px;
+        width: 0%;
+        left: 50%;
+    }
+
+    #btn-menu.is-active span:nth-child(2) {
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    #btn-menu.is-active span:nth-child(3) {
+        -webkit-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+    }
+
+
+
+
+    .bottom {
+        position: fixed;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        background: #464646;
+        z-index: 200;
+    }
+
+    .bottom {
+        bottom: 0;
+    }
+
+    .tab {}
+
+    .tab.search {
+        padding: 50px 0 50px 0;
+    }
+
+    .tab.queue {
+        display: none;
+    }
+
+    button {
+        font-family: 'geometry_soft_probold';
+        font-size: 20px;
+        height: 50px;
+        line-height: 50px;
+        color: #fefefe;
+        background: #464646;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        border: none;
+        float: left;
+        width: 50%;
+        -webkit-transition: background-color 300ms, color 300ms;
+        transition: background-color 300ms, color 300ms;
+    }
+
+    button:first-child {
+        border-right: 1px solid #242424;
+    }
+
+    button.selected {
+        background-color: #ccc;
+        color: #000;
+    }
+
+
+    /* ----- SEARCH TAB ----- */
+
+    .search-form {
+        position: fixed;
+        z-index: 100;
+        top: 45px;
+        left: 0;
+        right: 0;
+    }
+
+    .field {
+        font-family: 'Anaheim', sans-serif;
+        border: none;
+        font-size: 30px;
+        height: 50px;
+        line-height: 50px;
+        padding: 0 50px 0 10px;
+        width: 100%;
+        box-sizing: border-box;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .clear-field {
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 100;
+        width: 50px;
+        height: 50px;
+        background-position: -348px -40px;
+        display: none;
+    }
+
+    .search-results {
+        position: fixed;
+        top: 95px;
+        right: 0;
+        bottom: 50px;
+        left: 0;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .no-results {
+        font-weight: bold;
+        line-height: 60px;
+        padding-left: 10px;
+        color: #e3e700;
+        font-size: 18px;
+    }
+
+    .results {
+        font-size: 18px;
+    }
+
+    .results .song-item {
+        position: relative;
+        height: 53px;
+        border-bottom: 1px solid #000;
+        padding: 6px 10px 0 10px;
+    }
+
+    .results h3 {
+        color: #e3e700;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .results p {
+        font-size: 17px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .results .selected,
+    .results .selected h3 {
+        background: #e3e700;
+        color: #0c0c0c;
+    }
+
+    .results .selected h3,
+    .results .selected p {
+        padding-right: 80px;
+    }
+
+    .results .addme {
+        position: absolute;
+        right: -100px;
+        top: 5px;
+        font-size: 18px;
+        height: 49px;
+        width: 80px;
+        line-height: 49px;
+        background-color: #000;
+        -webkit-border-radius: 6px;
+        -moz-border-radius: 6px;
+        border-radius: 6px;
+        transition: right 0 linear;
+    }
+
+    .results .selected .addme {
+        right: 5px;
+        transition: right 150ms ease-in-out;
+    }
+
+
+    /* ------ QUEUE TAB ----- */
+
+    .queue-top {
+        position: fixed;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        top: 0;
+        right: 0;
+        left: 0;
+    }
+
+    .queue-list {
+        position: fixed;
+        top: 45px;
+        right: 0;
+        bottom: 50px;
+        left: 0;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .queue-item {
+        position: relative;
+        height: 53px;
+        border-bottom: 1px solid #000;
+        padding: 6px 10px 0 10px;
+    }
+
+    .order {
+        position: absolute;
+        top: 8px;
+        left: 4px;
+        width: 42px;
+        height: 42px;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        background: #e3e700;
+
+        font-family: 'geometry_soft_probold';
+        font-size: 30px;
+        line-height: 42px;
+        text-align: center;
+        color: #000;
+        z-index: 10;
+        overflow: hidden;
+    }
+
+    .queue-item.nowplaying {
+        background: #333;
+    }
+
+    .queue-item.complete .order {
+        background: #666;
+        color: #000;
+    }
+
+    .queue-item.complete .singer,
+    .queue-item.complete .song {
+        color: #666;
+    }
+
+
+    .queue-item .singer,
+    .queue-item .song {
+        position: absolute;
+        left: 52px;
+        white-space: nowrap;
+    }
+
+    .queue-item .singer {
+        top: 8px;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 22px;
+        line-height: 22px;
+        color: #e3e700;
+    }
+
+    .queue-item .song {
+        bottom: 8px;
+        width: 264px;
+        font-size: 18px;
+        line-height: 18px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* ----- Add form ----- */
+
+    .form-add {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 210;
+        display: none;
+        background: rgba(0, 0, 0, 0.9);
+    }
+
+    .add-container {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        height: 176px;
+        color: #fff;
+        max-width: 400px;
+        margin: -88px auto 0 auto;
+    }
+
+    .add-container.chat {
+        top: 10px;
+        height: 250px;
+        margin-top: 0;
+    }
+
+    .add-container.chat p {
+        font-size: 14px;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .add-container.chat .error {
+        display: block;
+        background-color: #e3e700;
+        position: absolute;
+        top: 30px;
+        width: calc(100% - 20px);
+        color: #000;
+        border-radius: 4px;
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 150ms;
+    }
+
+    .add-container.chat .error.is-active {
+        opacity: 1;
+    }
+
+    .form-add h3 {
+        font-family: 'geometry_soft_probold';
+        letter-spacing: 1px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        color: #e3e700;
+    }
+
+    .form-add .order {
+        top: 20px;
+        background-color: #e3e700;
+        color: #000;
+    }
+
+    .form-add .song {
+        text-align: center;
+        margin-top: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .form-add .clear-field {
+        right: 0;
+        top: 60px;
+    }
+
+    .chat .clear-field {
+        top: 76px;
+    }
+
+    .form-buttons {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .field.queue,
+    .field.queue-auto {
+        position: absolute;
+        top: 60px;
+    }
+
+    .field.queue {
+        background: transparent;
+    }
+
+    .field.queue-auto {
+        color: #ccc;
+        background: #fff;
+    }
+
+    .field.message {
+        height: 70px;
+        margin-top: 2px;
+        padding: 10px;
+        font-size: 22px;
+        line-height: 28px;
+    }
+}
+
+#site-disabled {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;    text-align: center;
+}
+
+#site-disabled .inner {
+  position: absolute;
+  padding: 0 40px;
+  width: calc(100% - 80px);
+  top: calc(50% - 40px);
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  max-width: 280px;
+}
+
+#site-disabled h2 {
+    display: block;
+    margin: 0 auto 40px auto;
+    text-indent: -999em;
+    background: url(../img/yokie-logo.png) center no-repeat;
+    background-size: contain;
+    width: 160px;
+    height: 53px;
+}
+
+#site-disabled h3 {
+    margin-bottom: 20px;
+    font-size: 20px;
+}

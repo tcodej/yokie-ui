@@ -1,0 +1,615 @@
+/* ----- ADMIN COMMON ----- */
+
+html, body {
+	background: #000;
+	color: #ccc;
+}
+
+#page-admin {
+
+	a {
+		color: #e3e700;
+		text-decoration: underline;
+	}
+
+	h1, h2, h3, p {
+		padding: 5px 0;
+	}
+
+	.row {
+		margin: 20px 0;
+	}
+
+	.group:after {
+	  content: "";
+	  display: table;
+	  clear: both;
+	}
+
+	.half, .quarter, .three-quarters, .third, .two-thirds {
+	  float: left;
+	}
+
+	.half {
+	  width: 50%;
+	}
+
+	.quarter {
+	  width: 25%;
+	}
+
+	.three-quarters {
+	  width: 75%;
+	}
+
+	.third {
+	  width: 33.333%;
+	}
+
+	.two-thirds {
+	  width: 66.666%;
+	}
+
+	strong {
+		font-weight: 700;
+	}
+
+	button {
+		cursor: pointer;
+	}
+
+	button.is-disabled {
+		pointer-events: none;
+		opacity: 0.1;
+	}
+
+	#admin-header {
+		position: relative;
+		width: 100%;
+		height: 45px;
+		background-color: #333;
+		z-index: 500;
+	}
+
+	#logout {
+		position: absolute;
+		right: 10px;
+		top: 12px;
+		text-decoration: none;
+	}
+
+	#logout:hover {
+		text-decoration: underline;
+	}
+
+	#admin-container {
+		padding: 10px 30px 90px 30px;
+		width: calc(100% - 60px);
+	}
+
+	.admin-button {
+		background-color: #ccc;
+		color: #000;
+		height: 30px;
+		line-height: 30px;
+		padding: 0 20px;
+	}
+
+	.admin-button:hover {
+		background-color: #e3e700;
+		color: #000;
+	}
+
+	#logo {
+	    position: absolute;
+	    font-family: 'geometry_soft_probold';
+	    font-size: 22px;
+	    top: 10px;
+	    left: 10px;
+	    color: #e8eb4f;
+	    text-decoration: none;
+	}
+
+
+
+
+	/* ----- INDEX ----- */
+	.page-index #admin-container a {
+		text-decoration: none;
+	}
+
+	.page-index #admin-container a:hover {
+		text-decoration: underline;
+	}
+
+
+	/* ----- AUTH ----- */
+
+	#auth {
+		width: 300px;
+		height: 270px;
+	}
+
+	#auth img {
+		display: block;
+		margin: 0 auto 17px auto;
+	}
+
+	#auth .login-container {
+		width: 100%;
+		height: 200px;
+	}
+
+	#auth .login-container .field {
+		width: calc(100% - 28px);
+		height: 60px;
+		line-height: 60px;
+		font-size: 30px;
+	}
+
+	#auth .login-container .password {
+		top: 70px;
+	}
+
+	#auth .login {
+		width: calc(100% - 8px);
+		line-height: 60px;
+		height: 60px;
+		font-size: 20px;
+	}
+
+
+
+
+
+
+
+	/* ----- BATCH IMPORT ----- */
+
+	#import-list {
+		margin: 30px 0;
+		color: #000;
+		background: #fff;
+	}
+
+	#import-list li {
+		padding: 5px;
+		border-bottom: 1px solid #000;
+		background: #fff;
+	}
+
+	#import-list li.importing {
+		background-color: #e3e700;
+	}
+
+	#batch-edit {
+	}
+
+	#batch-edit label {
+		display: block;
+		margin-top: 10px;
+	}
+
+	#batch-edit .row {
+		padding-left: 10px;
+		margin-bottom: 10px;
+		padding-bottom: 30px;
+	}
+
+	#batch-edit .row:nth-child(even) {
+		background-color: #333;
+	}
+
+	#batch-edit .row input {
+		width: calc(100% - 30px);
+		padding: 10px;
+		border: none;
+		border-radius: 6px;
+		text-overflow: ellipsis;
+	}
+
+
+
+
+	/* ----- LOG ----- */
+
+	#log-list {
+		margin-top: 20px;
+		max-width: 700px;
+		color: #fff;
+	}
+
+	#log-list strong {
+		color: #e8eb4f;
+	}
+
+	#log-list .row {
+		margin: 0;
+		padding: 5px 0;
+		border-bottom: 1px solid #333;
+		padding-left: 10px;
+	}
+
+	.row .date {
+		text-align: right;
+		color: #999;
+	}
+
+
+
+	/* ----- QUEUE LIST OVERRIDES ----- */
+
+	.queue-list {
+		position: fixed;
+		top: 60px;
+		left: 0;
+		right: 0;
+		bottom: 50px;
+		z-index: 199;
+	    overflow-y: scroll;
+	    -webkit-overflow-scrolling: touch;
+	}
+
+	.queue-item {
+		height: 60px;
+	}
+
+	.queue-item:hover {
+		background: #c9c9c9;
+	}
+
+	.queue-item:hover .order {
+	    background: #000;
+	    text-indent: 0;
+	}
+
+	.queue-item.complete:hover {
+		background: #666;
+	}
+
+	.queue-item.nowplaying {
+	    background: #e3e700;
+	}
+
+	.order {
+		top: 2px;
+		left: 2px;
+		width: 56px;
+		height: 56px;
+	    font-size: 36px;
+	    line-height: 56px;
+	}
+
+	.queue-item .singer,
+	.queue-item .song {
+		left: 64px;
+	}
+
+	.queue-item .singer {
+		font-size: 20px;
+		top: 5px;
+	}
+
+	.queue-item .song {
+		font-size: 16px;
+		bottom: 5px;
+	}
+
+	.remote-buttons {
+		position: absolute;
+		top: 10px;
+		right: -90px;
+		display: none;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+
+	.remote-buttons button {
+		width: 40px;
+		height: 40px;
+	    background-size: 968px 88px;
+	}
+
+	.queueplay {
+		background-position: -1px -2px;
+	}
+
+	.queueplay:hover {
+		background-position: -1px -46px;
+	}
+
+	.remove {
+		background-position: -442px -2px;
+	}
+
+	.remove:hover {
+		background-position: -442px -46px;
+	}
+
+	/* ----- REMOTE TOP ----- */
+
+	.page-remote {
+		margin: 0;
+		overflow: hidden;
+	}
+
+
+	.page-remote ::-webkit-scrollbar {
+	    width: 0;
+	    height: 0;
+	}
+
+	.top {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 60px;
+		background-color: #fff;
+		z-index: 100;
+	}
+
+	.player-toggle {
+		position: absolute;
+		top: 10px;
+		left: 10px;
+		width: 40px;
+		height: 40px;
+		z-index: 103;
+	    background-size: 968px 88px;
+	    background-position: -1px -2px;
+	}
+
+	.player-toggle:hover {
+		background-position: -1px -46px;
+	}
+
+	.player-toggle.playing {
+		background-position: -45px -2px;
+	}
+
+	.player-toggle.playing:hover {
+		background-position: -45px -46px;
+	}
+
+	.player-time {
+		position: absolute;
+		width: 100%;
+		height: 60px;
+		line-height: 60px;
+		text-align: center;
+		color: #000;
+		font-size: 40px;
+		font-weight: bold;
+		z-index: 101;
+	}
+
+	.progress {
+		background-color: #e3e700;
+		z-index: 100;
+	}
+
+
+	/* ----- REMOTE BOTTOM ----- */
+
+	.bottom {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		height: 50px;
+		background-color: #333;
+		z-index: 100;
+	}
+
+	.bottom button {
+		font-family: 'geometry_soft_probold';
+		font-size: 20px;
+		height: 50px;
+		line-height: 50px;
+		color: #fefefe;
+		background: #464646;
+		text-align: center;
+		margin: 0;
+		padding: 0;
+		border: none;
+		float: left;
+	    width: 50%;
+	    transition: background-color 300ms, color 300ms;
+		border-radius: 0;
+	}
+
+	.bottom button:first-child {
+		border-right: 1px solid #242424;
+	}
+
+	.bottom button.selected {
+	    background-color: #ccc;
+	    color: #000;
+	}
+
+	button.full {
+		width: 100%;
+		float: none;
+		border-right: none;
+	}
+
+
+
+
+
+	/* ----- UPLOAD ----- */
+
+	#upload-container {
+		position: fixed;
+		top: 45px;
+		right: 0;
+		bottom: 50px;
+		left: 0;
+		overflow: auto;
+		transition: background-color 300ms;
+	}
+
+	#upload-container.is-dragover {
+		background-color: #e3e700;
+	}
+
+	#upload-container.is-dragover #upload-copy {
+		color: #000;
+	}
+
+	#upload-container.is-disabled {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+
+	#upload-copy {
+		pointer-events: none;
+	}
+
+	.file {
+		position: relative;
+		height: 60px;
+		line-height: 60px;
+		background: #fff;
+		color: #000;
+		border-bottom: 1px solid #000;
+		padding: 0 10px;
+		overflow: hidden;
+	}
+
+	.file .icon {
+		position: absolute;
+		width: 24px;
+		height: 24px;
+		top: 18px;
+		right: 10px;
+		background-color: #000;
+		background-position: -395px 1px;
+		border-radius: 50%;
+		display: none;
+		z-index: 100;
+	}
+
+	.file.invalid {
+		background-color: #ccc;
+	}
+
+	.file.complete {
+		background-color: #0f0;
+	}
+
+	.file.complete .icon {
+		display: block;
+	}
+
+	.file-name {
+		position: relative;
+		z-index: 100;
+	}
+
+	.file .progress {
+		top: 0;
+		left: 0;
+		z-index: 50;
+	}
+
+
+
+
+
+
+
+	/* ----- BOOKLET ----- */
+
+	/* for public view */
+	#booklet-container {
+		padding: 10px;
+	}
+
+	#booklet-container #booklet div {
+		margin-bottom: 20px;
+		font-size: 18px;
+	}
+
+	/* admin view */
+
+	.page-booklet {
+		background-color: #fff;
+		color: #000;
+	}
+
+	@media screen, print {
+		#booklet-top {
+			text-align: center;
+			margin-bottom: 30px;
+		}
+
+		#booklet-top span {
+			text-decoration: underline;
+			font-weight: bold;
+		}
+
+		#booklet {
+		    -webkit-column-count: 3;
+		    -moz-column-count: 3;
+		    column-count: 3;
+
+		    -webkit-column-gap: 20px;
+		    -moz-column-gap: 20px;
+		    column-gap: 20px;
+		}
+
+		#booklet div {
+			margin-bottom: 10px;
+			font-size: 12px;
+		}
+
+		#booklet h2 {
+			background-color: #eee;
+			font-weight: bold;
+			text-transform: uppercase;
+			padding: 3px;
+			font-family: 'Anaheim', sans-serif;
+		}
+
+		#booklet p {
+			padding: 1px 0 1px 10px;
+		}
+
+		#print-logo {
+			width: 80px;
+		}
+	}
+
+	@media screen and (max-width: 768px) {
+		#booklet {
+		    -webkit-column-count: 2;
+		    -moz-column-count: 2;
+		    column-count: 2;
+
+		    -webkit-column-gap: 20px;
+		    -moz-column-gap: 20px;
+		    column-gap: 20px;
+		}
+	}
+
+	@media screen and (max-width: 600px) {
+	  .half, .quarter, .three-quarters, .third, .two-thirds {
+	    float: none;
+	    width: 100%;
+	  }
+	}
+
+	@media screen and (max-width: 400px) {
+		#booklet {
+		    -webkit-column-count: 1;
+		    -moz-column-count: 1;
+		    column-count: 1;
+
+		    -webkit-column-gap: 0;
+		    -moz-column-gap: 0;
+		    column-gap: 0;
+		}
+	}
+}
