@@ -10,10 +10,13 @@ const ApplicationProvider = ({ children }) => {
         useProxy: false,
         message: '',
         prefs: {},
-        currentSong: false
+        currentSong: false,
+        infoTags: []
     };
 
     const [appState, setAppState] = useState(defaultState);
+
+    // todo: may not need appAction
     const appAction = {};
 
     appAction.play = (song) => {

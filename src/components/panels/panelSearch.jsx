@@ -72,6 +72,42 @@ export default function PanelSearch() {
 
 	const selectSong = (item) => {
 		setSelectedSong(item);
+		updateAppState({ infoSong: item });
+		console.log(item);
+
+		var isYouTube = item.id.indexOf('youtube') > -1;
+
+		// selectedSong = yokie.util.getItem(id, searchData.result, isYouTube);
+
+		if (isYouTube) {
+			console.log('show youtube image');
+			// yokie.playerPanel.showImage(selectedSong.thumbnail);
+		}
+
+		if (item) {
+			api.getSongTags(item.id).then((response) => {
+				updateAppState({ message: response.message });
+
+				if (response.result) {
+					updateAppState({ infoTags: response.result });
+				}
+			});
+
+
+				// function(data) {
+				//     yokie.infoPanel.updateLabel(data.message);
+				//     if (data.result) {
+				//         selectedSong.tags = data.result;
+				//     }
+				//     selectedSong.durationFormatted = yokie.util.formatTime(selectedSong.duration);
+				//     yokie.infoPanel.updateDetails(yokie.util.getTemplate('song-details', selectedSong));
+				//     $('.tag-link').on('click', function(e) {
+				//         e.preventDefault();
+				//         self.loadSongsByTag($(this).data('id'));
+				//     });
+				// }
+		}
+
 	}
 
 	const openQueueAdd = () => {

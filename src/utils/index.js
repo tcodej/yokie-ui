@@ -58,3 +58,32 @@ export const getItem = (list, key, value) => {
 
     return false;
 }
+
+export const formatTime = (number) => {
+    number = Math.abs(number);
+    var i = 0,
+        stopage = false,
+        cutIndex = -1,
+        val = [
+            Math.floor(number / 86400 / 7),    // weeks
+            Math.floor(number / 86400 % 7),    // days
+            Math.floor(number / 3600 % 24),    // hours
+            Math.floor(number / 60 % 60),      // mins
+            Math.floor(number % 60)           // secs
+        ];
+
+    for (i = 0; i < val.length; i++) {
+        if( val[i] < 10 && i != 3 )
+            val[i] = '0' + val[i];
+        if( val[i] == '00' && i < (val.length - 2) && !stopage ) {
+            cutIndex = i;
+
+        } else {
+            stopage = true;
+        }
+    }
+
+    val.splice(0, cutIndex + 1);
+    return val.join(':');
+}
+

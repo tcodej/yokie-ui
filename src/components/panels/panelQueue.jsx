@@ -38,7 +38,6 @@ export default function PanelQueue() {
 		const item = getItem(queueData.result, 'id', id);
 
 		if (item) {
-			console.log('play', item);
 			updateAppState({ currentSong: item });
 		}
 	}

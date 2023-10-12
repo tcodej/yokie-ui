@@ -1,8 +1,13 @@
 import { Fragment } from 'react';
 import { useAppContext } from '../../contexts/application';
+import { formatTime } from '../../utils';
 
 export default function PanelInfo() {
 	const { appState } = useAppContext();
+
+	const tagSearch = (tag_id) => {
+		console.log('search for tag', tag_id);
+	}
 
 	return (
 		<div className="panel info">
@@ -23,7 +28,34 @@ export default function PanelInfo() {
 				<div className="label">{appState.message}</div>
 			</div>
 			<div className="container hsl-light">
-				<div className="song-details"></div>
+				<div className="song-details">
+				{appState.infoSong &&
+					<p>
+						{appState.infoSong.note && <div className="note">{appState.infoSong.note}</div>}
+						{appState.infoSong.song_id} ({appState.infoSong.id})<br />
+						{(appState.infoSong.plays == 0) ? (
+							<span>Never been played.</span>
+						) : (
+							<span>Played {appState.infoSong.plays} time{(appState.infoSong.plays > 1) ? 's' : ''}.</span>
+						)}
+						&nbsp;Time: {formatTime(appState.infoSong.duration)}<br />
+						{appState.infoSong.date_added && <span>Added on {appState.infoSong.date_added}.</span>}
+						&nbsp;Status: {appState.infoSong.audit === true ? 'Verified' : 'Unverified'}.
+					</p>
+				}
+
+				{(appState.infoTags.length > 1) &&
+					<ul className="tags-list">
+						{ appState.infoTags.map((item) => {
+							return (
+								<li key={item.tag_id} onClick={() => { tagSearch(item.tag_id) }}>
+									{item.tag_name}
+								</li>
+							)
+						})}
+					</ul>
+				}
+				</div>
 			</div>
 		</div>
 	)

@@ -88,6 +88,19 @@ export const getSingers = async (detailed) => {
 	return result;
 };
 
+export const getSongTags = async (id) => {
+	const formData = formDataPost();
+	formData.append('id', id);
+
+	const response = await fetch(`${url}/feed/song-tags`, {
+		method: 'POST',
+		body: formData
+	});
+
+	const result = await response.json();
+	return result;
+};
+
 
 
 export const getYouTubeResults = async (query) => {
