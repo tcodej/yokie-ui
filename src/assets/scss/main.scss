@@ -797,13 +797,16 @@ button.toggle {
 	border-radius: 3px;
 	box-shadow: -6px 0 12px 0 rgba(0,0,0,0.5);
 	padding: 4px;
-	display: none;
+	
+	button {
+		margin-right: 4px;
+	}
 }
 
-#sound-menu.open,
-#message-form.open {
-	display: block;
-}
+// #sound-menu.open,
+// #message-form.open {
+// 	display: block;
+// }
 
 #message-form {
 	position: absolute;
@@ -816,7 +819,7 @@ button.toggle {
 	border-radius: 3px;
 	box-shadow: -6px 0 12px 0 rgba(0,0,0,0.5);
 	padding: 4px;
-	display: none;
+	// display: none;
 }
 
 #message-form .field {

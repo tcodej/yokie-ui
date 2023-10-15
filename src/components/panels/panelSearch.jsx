@@ -115,8 +115,10 @@ export default function PanelSearch() {
 	}
 
 	useEffect(() => {
-		setTotal(appState.prefs.totalSongs);
-	}, [appState.prefs.totalSongs]);
+		if (appState.prefs.totalSongs) {
+			setTotal(appState.prefs.totalSongs);
+		}
+	}, [appState.prefs]);
 
 	return (
 		<div className="panel songs">

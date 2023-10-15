@@ -1,5 +1,31 @@
 const url = 'http://yokie.trentj.loc';
 
+const getResult = async (endpoint, formData) => {
+	let data = {
+		method: 'GET'
+	};
+
+	if (formData) {
+		data.method = 'POST';
+		data.body = formData;
+	}
+
+	try {
+		const response = await fetch(`${url}${endpoint}`, data);
+		const result = await response.json();
+		result.ok = response.ok;
+		// console.log(result);
+		return result;
+
+	} catch(err) {
+		return {
+			ok: false,
+			message: 'API call failed.',
+			result: []
+		}
+	}
+}
+
 // POST requires a formdata object even if it isn't used
 const formDataPost = () => {
 	const formData = new FormData();
@@ -11,19 +37,11 @@ export const getSearchResults = async (query) => {
 	const formData = new FormData();
 	formData.append('query', query);
 
-	const response = await fetch(`${url}/feed/search`, {
-		method: 'POST',
-		body: formData
-	});
-
-	const result = await response.json();
-	return result;
+	return getResult('/feed/search', formData);
 };
 
 export const getQueue = async () => {
-	const response = await fetch(`${url}/queue/get`);
-	const result = await response.json();
-	return result;
+	return getResult('/queue/get');
 };
 
 export const addQueue = async (data) => {
@@ -36,40 +54,24 @@ export const addQueue = async (data) => {
 		}
 	}
 
-	const response = await fetch(`${url}/queue/add`, {
-		method: 'POST',
-		body: formData
-	});
-
-	const result = await response.json();
-	return result;
+	return getResult('/queue/add', formData);
 };
 
 export const removeQueue = async (id) => {
 	const formData = new FormData();
 	formData.append('queue_id', id);
 
-	const response = await fetch(`${url}/queue/remove`, {
-		method: 'POST',
-		body: formData
-	});
-
-	const result = await response.json();
-	return result;
+	return getResult('/queue/remove', formData);
 };
 
 export const getFeed = async (type) => {
+	const formData = formDataPost();
+
 	if (!type) {
 		type = 'random';
 	}
 
-	const response = await fetch(`${url}/feed/${type}`, {
-		method: 'POST',
-		body: formDataPost()
-	});
-
-	const result = await response.json();
-	return result;
+	return getResult(`/feed/${type}`, formData);
 };
 
 export const getSingers = async (detailed) => {
@@ -79,26 +81,14 @@ export const getSingers = async (detailed) => {
 		formData.append('detailed', true);
 	}
 
-	const response = await fetch(`${url}/feed/singers`, {
-		method: 'POST',
-		body: formData
-	});
-
-	const result = await response.json();
-	return result;
+	return getResult('/feed/singers', formData);
 };
 
 export const getSongTags = async (id) => {
-	const formData = formDataPost();
+	const formData = new FormData();
 	formData.append('id', id);
 
-	const response = await fetch(`${url}/feed/song-tags`, {
-		method: 'POST',
-		body: formData
-	});
-
-	const result = await response.json();
-	return result;
+	return getResult('/feed/song-tags', formData);
 };
 
 

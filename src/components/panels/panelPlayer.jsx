@@ -17,6 +17,7 @@ export default function PanelPlayer() {
 	const [listenersAdded, setListenersAdded] = useState(false);
 	const audio = useRef();
 	const canvas = useRef();
+	const count = useRef(0);
 
 	let audioContext = null;
 	let timer = null;
@@ -26,6 +27,8 @@ export default function PanelPlayer() {
 	let pitchShifter = null;
 
 	useEffect(() => {
+		console.log('useEffect');
+
 		if (canvas.current) {
 			setCdgDecoder(new CDGDecoder(canvas.current));
 		}
@@ -33,7 +36,6 @@ export default function PanelPlayer() {
 
 	useEffect(() => {
 		if (appState.currentSong) {
-			clearPlayer();
 			load();
 		}
 	}, [appState.currentSong]);
@@ -42,7 +44,7 @@ export default function PanelPlayer() {
 		console.log('loading', appState.currentSong);
 		const song = appState.currentSong;
 		const songID = song.id;
-		// self.clearPlayer();
+		clearPlayer();
 		setLoading(true);
 
 		// todo: come up with a better way to manage and cancel downlaods
@@ -55,7 +57,6 @@ export default function PanelPlayer() {
 		xhr.responseType = 'arraybuffer';
 
 		xhr.onload = function(e) {
-			console.log(this.status);
 			switch (this.status) {
 				case 200:
 					let data = [],
@@ -77,6 +78,7 @@ export default function PanelPlayer() {
 					// $(audio).empty();
 
 					audio.current.src = song.path + '.mp3';
+					audio.current.volume = 0.05;
 
 					if (song.pitch) {
 						let request = new XMLHttpRequest();
@@ -143,6 +145,7 @@ export default function PanelPlayer() {
 
 		setLoading(false);
 		togglePlay();
+		console.log(count.current);
 
 		// this stops playback during an Admin song audit
 		// if (typeof Admin !== 'undefined') {
@@ -227,6 +230,7 @@ export default function PanelPlayer() {
 	}
 
 	const togglePlay = () => {
+		count.current = count.current + 1;
 		if (playing === true) {
 			if (ytPlayer !== null) {
 				ytPlayer.pauseVideo();

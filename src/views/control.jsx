@@ -18,18 +18,20 @@ export default function Control() {
 		if (!loaded) {
 			setLoaded(true);
 			getFeed('preferences').then((response) => {
-				setLoaded(true);
+				if (response.ok) {
+					setLoaded(true);
 
-				updateAppState({
-					prefs: response.preferences,
-					message: response.message
-				});
+					updateAppState({
+						prefs: response.preferences,
+						message: response.message
+					});
 
-				updateInterfaceColors(
-					response.preferences.hue,
-					response.preferences.saturation,
-					response.preferences.lightness
-				);
+					updateInterfaceColors(
+						response.preferences.hue,
+						response.preferences.saturation,
+						response.preferences.lightness
+					);
+				}
 			});
 		}
 	}, [loaded, updateAppState]);

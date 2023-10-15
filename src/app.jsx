@@ -5,9 +5,12 @@ import {
 } from 'react-router-dom';
 import Home from './views/home';
 import Control from './views/control';
+import Popup from './views/popup';
 import Admin from './views/admin';
 import Error404 from './views/error404';
+
 import './assets/scss/main.scss';
+import './assets/scss/popup.scss';
 import './assets/scss/mobile.scss';
 import './assets/scss/admin.scss';
 
@@ -17,6 +20,7 @@ export default function App() {
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="control/" element={<Control />} />
+				<Route path="popup/" element={<Popup />} />
 				<Route path="admin/" element={<Admin />} />
 				<Route path="*" element={<Error404 />} />
 			</Routes>
