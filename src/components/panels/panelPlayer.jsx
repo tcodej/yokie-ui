@@ -5,7 +5,7 @@ import { formatTime } from '../../utils';
 import { PitchShifter } from '../../utils/soundtouch';
 
 export default function PanelPlayer() {
-	const { appState, updateAppState } = useAppContext();
+	const { appState, updateAppState, appAction } = useAppContext();
 	const [loading, setLoading] = useState(false);
 	const [songLoaded, setSongLoaded] = useState(false);
 	const [playing, setPlaying] = useState(false);
@@ -443,19 +443,34 @@ export default function PanelPlayer() {
 		audioUpdate();
 	}
 
-	// used to show a YouTube thumbnail in the player window
-	const showImage = (url) => {
-		// $panel.find('.message-wrapper')
-		//     .html('<img src="'+ url +'">')
-		//     .show()
-		//     .on('click', self.clearImage);
+	// used to show hide the YouTube thumbnail in the player window
+	const clearImage = (url) => {
+		updateAppState({ playerImg: false });
 	}
 
-	const clearImage = (url) => {
+	const showMessage = (template, message) => {
+		// var html = yokie.util.getTemplate(template, { message: message });
 		// $panel.find('.message-wrapper')
-		//     .empty()
-		//     .hide()
-		//     .off('click');
+		// 	.html(html)
+		// 	.show()
+		// 	.on('click', self.clearMessage);
+
+		// if (popup !== null) {
+		// 	var messageWrapper = popup.document.getElementById('message-wrapper');
+		// 	$(messageWrapper).html(html).show();
+		// }
+	}
+
+	const clearMessage = () => {
+		// $panel.find('.message-wrapper')
+		// 	.empty()
+		// 	.hide()
+		// 	.off('click');
+
+		// if (popup !== null) {
+		// 	var messageWrapper = popup.document.getElementById('message-wrapper');
+		// 	$(messageWrapper).empty().hide();
+		// }
 	}
 
 	const toggleView = (toggleQueue) => {
@@ -553,15 +568,25 @@ export default function PanelPlayer() {
 			{ loading &&
 				<div className="loader"></div>
 			}
-				<div className="message-wrapper"></div>
+			{ appAction.showMessage() &&
+				<div className="message-wrapper">
+				{ appState.playerImg && <img src={appState.playerImg} alt="YouTube Image" onClick={clearImage} /> }
 
+				{ appState.playerMsg &&
+					<div>{appState.playerMsg}</div>
+				}
+
+				{ appState.playerQueue &&
+					<div>show queue</div>
+				}
+				</div>
+			}
 				<div id="player">
 					<audio className="player-audio" ref={audio} />
 					<div className="player-wrapper hsl-dark">
 						<canvas className="player-canvas" width="300" height="216" ref={canvas}></canvas>
 					</div>
 				</div>
-
 			</div>
 		</div>
 	)

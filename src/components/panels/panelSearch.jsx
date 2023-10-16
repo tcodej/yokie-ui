@@ -9,11 +9,13 @@ export default function PanelSearch() {
 	const { appState, updateAppState } = useAppContext();
 	const [query, setQuery] = useState('');
 	const [total, setTotal] = useState(0);
+	const [searching, setSearching] = useState(false);
 	const [results, setResults] = useState([]);
 	const [selectedSong, setSelectedSong] = useState({});
 	const [sorted, setSorted] = useState(false);
 
 	const updateQuery = (e) => {
+		setSearching(true);
 		setQuery(e.target.value);
 		clearTimeout(searchTimer);
 
@@ -32,12 +34,12 @@ export default function PanelSearch() {
 		api.getSearchResults(query).then((response) => {
 			setResults(response.result);
 			setTotal(response.total);
+			setSearching(false);
 			updateAppState({ message: response.message });
 		});
 	}
 
 	const searchYouTube = async () => {
-		console.log('search youtube for', query +' karaoke');
 		api.getYouTubeResults(query +' karaoke').then((response) => {
 			setResults(response.result);
 			setTotal(response.total);
@@ -65,23 +67,24 @@ export default function PanelSearch() {
 	}
 
 	const clearSearch = () => {
-		setResults([]);
 		setQuery('');
-		updateAppState({ message: '' });
+		setResults([]);
+		updateAppState({
+			message: '',
+			infoSong: false,
+			infoTags: [],
+			playerImg: false
+		});
 	}
 
 	const selectSong = (item) => {
 		setSelectedSong(item);
 		updateAppState({ infoSong: item });
-		console.log(item);
 
-		var isYouTube = item.id.indexOf('youtube') > -1;
-
-		// selectedSong = yokie.util.getItem(id, searchData.result, isYouTube);
+		const isYouTube = item.id.indexOf('youtube') > -1;
 
 		if (isYouTube) {
-			console.log('show youtube image');
-			// yokie.playerPanel.showImage(selectedSong.thumbnail);
+			updateAppState({ playerImg: item.thumbnail })
 		}
 
 		if (item) {
@@ -92,22 +95,7 @@ export default function PanelSearch() {
 					updateAppState({ infoTags: response.result });
 				}
 			});
-
-
-				// function(data) {
-				//     yokie.infoPanel.updateLabel(data.message);
-				//     if (data.result) {
-				//         selectedSong.tags = data.result;
-				//     }
-				//     selectedSong.durationFormatted = yokie.util.formatTime(selectedSong.duration);
-				//     yokie.infoPanel.updateDetails(yokie.util.getTemplate('song-details', selectedSong));
-				//     $('.tag-link').on('click', function(e) {
-				//         e.preventDefault();
-				//         self.loadSongsByTag($(this).data('id'));
-				//     });
-				// }
 		}
-
 	}
 
 	const openQueueAdd = () => {
@@ -130,14 +118,18 @@ export default function PanelSearch() {
 				{ (results.length > 0) &&
 					<Fragment>
 						<button type="button" className="sort" onClick={toggleSort}>title sort</button>
-						<button type="button" className="youtube" onClick={searchYouTube}>youtube</button>
+						<button type="button" className="youtube" title={`Search YouTube for "${query} karaoke"`} onClick={searchYouTube}>youtube</button>
 					</Fragment>
 				}
 				<div className="label">{total} songs.</div>
 			</div>
 			<div className="container hsl-light">
 				<div className="search-results hsl-dark">
-					{ (results.length > 0) ? (
+
+				{ searching && <div className="no-results">Searching for &quot;{query}&quot;...</div> }
+
+				{ (query && results.length > 0) &&
+					<Fragment>
 						<table className="results">
 							<tbody>
 							{
@@ -160,10 +152,16 @@ export default function PanelSearch() {
 							}
 							</tbody>
 						</table>
-						) : (
-							<div className="no-results" onClick={searchYouTube}>No results. Search YouTube?</div>
-						)
-					}
+						{ results[0].type !== 'youtube' &&
+							<div className="no-results" onClick={searchYouTube}>Don't see what you want? Click to search YouTube.</div>
+						}
+					</Fragment>
+				}
+
+				{ (query && results.length == 0 && !searching) &&
+					<div className="no-results" onClick={searchYouTube}>No results for &quot;{query}&quot;. Click to search YouTube.</div>
+				}
+
 				</div>
 
 				<form method="post" onSubmit={search} className="search-form">

@@ -11,13 +11,21 @@ const ApplicationProvider = ({ children }) => {
         message: '',
         prefs: {},
         currentSong: false,
-        infoTags: []
+        infoSong: false,
+        infoTags: [],
+        playerImg: false,
+        playerMsg: false,
+        playerQueue: false
     };
 
     const [appState, setAppState] = useState(defaultState);
 
-    // todo: may not need appAction
     const appAction = {};
+
+    // whether or not to show the message-queue in playerPanel
+    appAction.showMessage = () => {
+        return (appState.playerImg || appState.playerMsg || appState.playerQueue) ? true : false;
+    }
 
     appAction.play = (song) => {
         console.log(song);

@@ -1,12 +1,18 @@
 const url = 'http://yokie.trentj.loc';
 
-const getResult = async (endpoint, formData) => {
+const getResult = async (endpoint, postData) => {
 	let data = {
 		method: 'GET'
 	};
 
-	if (formData) {
+	if (postData) {
+		let formData = new FormData();
 		data.method = 'POST';
+
+		for (const [key, value] of Object.entries(postData)) {
+			formData.append(key, value);
+		}
+
 		data.body = formData;
 	}
 
@@ -26,18 +32,8 @@ const getResult = async (endpoint, formData) => {
 	}
 }
 
-// POST requires a formdata object even if it isn't used
-const formDataPost = () => {
-	const formData = new FormData();
-	formData.append('post', true);
-	return formData;
-}
-
 export const getSearchResults = async (query) => {
-	const formData = new FormData();
-	formData.append('query', query);
-
-	return getResult('/feed/search', formData);
+	return getResult('/feed/search', { query: query });
 };
 
 export const getQueue = async () => {
@@ -45,50 +41,35 @@ export const getQueue = async () => {
 };
 
 export const addQueue = async (data) => {
-	const formData = new FormData();
-	formData.append('type', 'add');
-
-	for (var key in data) {
-		if (data.hasOwnProperty(key)) {
-			formData.append(key, data[key]);
-		}
-	}
-
-	return getResult('/queue/add', formData);
+	return getResult('/queue/add', { type: 'add', ...data });
 };
 
 export const removeQueue = async (id) => {
-	const formData = new FormData();
-	formData.append('queue_id', id);
-
-	return getResult('/queue/remove', formData);
+	return getResult('/queue/remove', { queue_id, id });
 };
 
 export const getFeed = async (type) => {
-	const formData = formDataPost();
-
 	if (!type) {
 		type = 'random';
 	}
 
-	return getResult(`/feed/${type}`, formData);
+	return getResult(`/feed/${type}`, { post: true });
 };
 
 export const getSingers = async (detailed) => {
-	const formData = formDataPost();
-
-	if (detailed) {
-		formData.append('detailed', true);
+	let data = {
+		post: true
 	}
 
-	return getResult('/feed/singers', formData);
+	if (detailed) {
+		data.detailed = true
+	}
+
+	return getResult('/feed/singers', data);
 };
 
 export const getSongTags = async (id) => {
-	const formData = new FormData();
-	formData.append('id', id);
-
-	return getResult('/feed/song-tags', formData);
+	return getResult('/feed/song-tags', { id: id });
 };
 
 
@@ -118,10 +99,10 @@ export const getYouTubeResults = async (query) => {
 				searchData.total = result.items.length;
 				searchData.message = 'YouTube search complete.'
 
-				var count = 0;
+				let count = 0;
 				result.items.forEach(function(item) {
 					count++;
-					var song = {
+					const song = {
 						type: 'youtube',
 						thumbnail: item.snippet.thumbnails.high.url,
 						// artist: item.snippet.channelTitle,
@@ -138,7 +119,6 @@ export const getYouTubeResults = async (query) => {
 					};
 
 					searchData.result.push(song);
-
 				});
 			}
 
