@@ -53,6 +53,7 @@ export default function PanelPlayer() {
 		// }
 		const xhr = new XMLHttpRequest();
 		updateAppState({ message: 'Loading video...' });
+		console.log(song.path);
 		xhr.open('GET', encodeURI(song.path) + '.cdg', true);
 		xhr.responseType = 'arraybuffer';
 

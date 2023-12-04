@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAppContext } from '../contexts/application';
-import { getFeed } from '../utils/api';
+import { getPreferences } from '../utils/api';
 import { updateInterfaceColors } from '../utils';
 import PanelSearch from '../components/panels/panelSearch';
 import PanelInfo from '../components/panels/panelInfo';
@@ -17,7 +17,7 @@ export default function Control() {
 	useEffect(() => {
 		if (!loaded) {
 			setLoaded(true);
-			getFeed('preferences').then((response) => {
+			getPreferences().then((response) => {
 				if (response.ok) {
 					setLoaded(true);
 

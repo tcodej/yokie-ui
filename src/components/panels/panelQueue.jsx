@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
-import { getQueue, getSingers, addQueue, removeQueue } from '../../utils/api';
+import { getQueue, getSingers, getSingerLog, addQueue, removeQueue } from '../../utils/api';
 import { getItem } from '../../utils';
 import { useAppContext } from '../../contexts/application';
 
@@ -12,6 +12,7 @@ export default function PanelQueue() {
 
 	const refreshQueue = () => {
 		getQueue().then((response) => {
+			console.log(response);
 			setQueueData(response);
 		});
 	}
@@ -34,11 +35,9 @@ export default function PanelQueue() {
 		return artist != '' ? artist +' / ' : '';
 	}
 
-	const play = (id) => {
-		const item = getItem(queueData.result, 'id', id);
-
+	const play = (item) => {
 		if (item) {
-			updateAppState({ currentSong: item });
+			updateAppState({ currentSong: item.song });
 		}
 	}
 
@@ -57,7 +56,7 @@ export default function PanelQueue() {
 
 			return (
 				<div key={item.id} className={className}>
-					<div className="order queueplay" onClick={() => play(item.id)}>
+					<div className="order queueplay" onClick={() => play(item)}>
 						{ (item.status < 2) ? ordinal : '-' }
 					</div>
 					<div className="slider">
@@ -65,7 +64,9 @@ export default function PanelQueue() {
 						<div className="little-button handle icon">↕</div>
 					</div>
 					<p className="singer">{item.name}</p>
-					<p className="song" title={`${item.title} (${item.time})`}>{formatArtist(item.artist)}{item.title}</p>
+					{ item.song &&
+						<p className="song" title={`${item.song.title} (${item.time})`}>{formatArtist(item.song.artist)}{item.song.title}</p>
+					}
 					{ item.mobile && <div className="icon mobile" title="added from a mobile device"></div> }
 					{ item.youtube && <div className="icon youtube" title="youtube video"></div> }
 
@@ -108,7 +109,9 @@ export default function PanelQueue() {
 	}
 
 	const loadSinger = (id) => {
-		console.log('getSinger', id);
+		getSingerLog(id).then((response) => {
+			console.log(response);
+		});
 	}
 
 	const updateSinger = (e) => {

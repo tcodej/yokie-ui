@@ -1,19 +1,31 @@
-const url = 'http://yokie.trentj.loc';
+// const url = 'http://yokie.trentj.loc';
+// const url = 'https://yokie.org';
+const url = 'http://localhost:3000/api/yokie';
 
 const getResult = async (endpoint, postData) => {
 	let data = {
 		method: 'GET'
 	};
 
+	// if (postData) {
+	// 	let formData = new FormData();
+	// 	data.method = 'POST';
+
+	// 	for (const [key, value] of Object.entries(postData)) {
+	// 		formData.append(key, value);
+	// 	}
+
+	// 	data.body = formData;
+	// }
+
 	if (postData) {
-		let formData = new FormData();
-		data.method = 'POST';
-
-		for (const [key, value] of Object.entries(postData)) {
-			formData.append(key, value);
-		}
-
-		data.body = formData;
+		data = {
+			method: 'POST',
+        	headers: {
+	            'Content-Type': 'application/json'
+        	},
+        	body: JSON.stringify(postData)
+        };
 	}
 
 	try {
@@ -32,8 +44,12 @@ const getResult = async (endpoint, postData) => {
 	}
 }
 
+export const getPreferences = async () => {
+	return getResult('/feed/preferences');
+};
+
 export const getSearchResults = async (query) => {
-	return getResult('/feed/search', { query: query });
+	return getResult('/search', { query: query });
 };
 
 export const getQueue = async () => {
@@ -45,7 +61,7 @@ export const addQueue = async (data) => {
 };
 
 export const removeQueue = async (id) => {
-	return getResult('/queue/remove', { queue_id, id });
+	return getResult('/queue/remove', { queue_id: id });
 };
 
 export const getFeed = async (type) => {
@@ -62,14 +78,22 @@ export const getSingers = async (detailed) => {
 	}
 
 	if (detailed) {
-		data.detailed = true
+		data.detailed = true;
 	}
 
 	return getResult('/feed/singers', data);
 };
 
+export const getSingerLog = async (id) => {
+	return getResult('/feed/singer-log', { id: id });
+}
+
 export const getSongTags = async (id) => {
 	return getResult('/feed/song-tags', { id: id });
+};
+
+export const getSearchTag = async (id) => {
+	return getResult('/feed/search-tag', { id: id });
 };
 
 

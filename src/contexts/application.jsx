@@ -15,7 +15,8 @@ const ApplicationProvider = ({ children }) => {
         infoTags: [],
         playerImg: false,
         playerMsg: false,
-        playerQueue: false
+        playerQueue: false,
+        songResults: []
     };
 
     const [appState, setAppState] = useState(defaultState);

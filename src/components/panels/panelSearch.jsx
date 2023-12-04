@@ -10,21 +10,24 @@ export default function PanelSearch() {
 	const [query, setQuery] = useState('');
 	const [total, setTotal] = useState(0);
 	const [searching, setSearching] = useState(false);
-	const [results, setResults] = useState([]);
+	// const [results, setResults] = useState([]);
 	const [selectedSong, setSelectedSong] = useState({});
 	const [sorted, setSorted] = useState(false);
 
 	const updateQuery = (e) => {
 		setSearching(true);
 		setQuery(e.target.value);
-		clearTimeout(searchTimer);
+	}
 
-		if (e.target.value.length > 3) {
+	// perform a search after query has updated
+	useEffect(() => {
+		if (query && query.length > 3) {
+			clearTimeout(searchTimer);
 			searchTimer = setTimeout(() => {
 				search();
 			}, 1000);
 		}
-	}
+	}, [query]);
 
 	const search = async (e) => {
 		if (e) {
@@ -32,48 +35,59 @@ export default function PanelSearch() {
 		}
 
 		api.getSearchResults(query).then((response) => {
-			setResults(response.result);
+			// setResults(response.result);
 			setTotal(response.total);
 			setSearching(false);
-			updateAppState({ message: response.message });
+			updateAppState({
+				songResults: response.result,
+				message: response.message
+			});
 		});
 	}
 
 	const searchYouTube = async () => {
 		api.getYouTubeResults(query +' karaoke').then((response) => {
-			setResults(response.result);
 			setTotal(response.total);
-			updateAppState({ message: response.message });
+			updateAppState({
+				songResults: response.result,
+				message: response.message
+			});
 		});
 	}
 
 	const getFeed = (type) => {
+		// set query to allow view to refresh
+		//setQuery(type);
+
 		api.getFeed(type).then((response) => {
-			setResults(response.result);
 			setTotal(response.total);
-			updateAppState({ message: response.message });
+			updateAppState({
+				songResults: response.result,
+				message: response.message
+			});
 		});
 	}
 
 	const toggleSort = () => {
 		if (!sorted) {
-			setResults(prevVals => sort([...prevVals], 'title'));
+			// setResults(prevVals => sort([...prevVals], 'title'));
 			setSorted(true);
 
 		} else {
-			setResults(prevVals => sort([...prevVals], 'artist'));
+			// setResults(prevVals => sort([...prevVals], 'artist'));
 			setSorted(false);
 		}
 	}
 
 	const clearSearch = () => {
 		setQuery('');
-		setResults([]);
+		// setResults([]);
 		updateAppState({
 			message: '',
 			infoSong: false,
 			infoTags: [],
-			playerImg: false
+			playerImg: false,
+			songResults: []
 		});
 	}
 
@@ -81,7 +95,7 @@ export default function PanelSearch() {
 		setSelectedSong(item);
 		updateAppState({ infoSong: item });
 
-		const isYouTube = item.id.indexOf('youtube') > -1;
+		const isYouTube = item.type === 'youtube';
 
 		if (isYouTube) {
 			updateAppState({ playerImg: item.thumbnail })
@@ -115,7 +129,7 @@ export default function PanelSearch() {
 				<button type="button" className="random" onClick={() => getFeed('random')}>random</button>
 				<button type="button" className="whatsnew" onClick={() => getFeed('newest')}>new</button>
 				<button type="button" className="whatspopular" onClick={() => getFeed('popular')}>popular</button>
-				{ (results.length > 0) &&
+				{ (appState.songResults.length > 0) &&
 					<Fragment>
 						<button type="button" className="sort" onClick={toggleSort}>title sort</button>
 						<button type="button" className="youtube" title={`Search YouTube for "${query} karaoke"`} onClick={searchYouTube}>youtube</button>
@@ -128,12 +142,12 @@ export default function PanelSearch() {
 
 				{ searching && <div className="no-results">Searching for &quot;{query}&quot;...</div> }
 
-				{ (query && results.length > 0) &&
+				{ (appState.songResults.length > 0) &&
 					<Fragment>
 						<table className="results">
 							<tbody>
 							{
-								results.map((item) => {
+								appState.songResults.map((item) => {
 									return (
 										<tr
 											key={item.id}
@@ -143,7 +157,7 @@ export default function PanelSearch() {
 										>
 											<td>{item.artist}</td>
 											<td>
-												{item.title}
+												<span dangerouslySetInnerHTML={{ __html: item.title }} />
 												<button className="button add-queue" onClick={openQueueAdd}>add</button>
 											</td>
 										</tr>
@@ -152,13 +166,13 @@ export default function PanelSearch() {
 							}
 							</tbody>
 						</table>
-						{ results[0].type !== 'youtube' &&
+						{ appState.songResults[0].type !== 'youtube' &&
 							<div className="no-results" onClick={searchYouTube}>Don't see what you want? Click to search YouTube.</div>
 						}
 					</Fragment>
 				}
 
-				{ (query && results.length == 0 && !searching) &&
+				{ (query && appState.songResults.length == 0 && !searching) &&
 					<div className="no-results" onClick={searchYouTube}>No results for &quot;{query}&quot;. Click to search YouTube.</div>
 				}
 
